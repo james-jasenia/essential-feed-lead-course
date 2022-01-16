@@ -1,5 +1,5 @@
 # Essential Feed
-### iOS Lead Essentials Course - Caio Zullo and Mike Apostolakis 
+##### iOS Lead Essentials Course - Caio Zullo and Mike Apostolakis 
 
 ## Story: Customer requests to see their image feed
 ### Narrative #1
