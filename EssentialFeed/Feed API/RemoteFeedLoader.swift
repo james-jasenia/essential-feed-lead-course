@@ -41,9 +41,8 @@ public final class RemoteFeedLoader {
             
             case let .success(data, response):
                 if response.statusCode == 200 {
-                    let decoder = JSONDecoder()
                     do {
-                        _ = try decoder.decode(FeedItem.self, from: data)
+                        _ = try JSONSerialization.jsonObject(with: data)
                         completion(.success([]))
                     } catch {
                         completion(.failure(.invalidData))
