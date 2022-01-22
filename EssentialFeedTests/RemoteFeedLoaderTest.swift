@@ -77,24 +77,19 @@ class RemoteFeedLoaderTests: XCTestCase {
     func test_load_deliversItemsOn200HTTPResponseWithJSONItems() {
         let (sut, client) = makeSUT()
         
-        let item1 = FeedItem(
+        let (item1, json1) = makeItem(
             id: UUID(),
-            description: nil,
-            location: nil,
             imageURL: URL(string: "http://any-url.com/")!
         )
         
-        let item1JSON = [
-            "id": item1.id.uuidString,
-            "image": item1.imageURL.absoluteString
-        ]
+        let (item2, json2) = makeItem(
+            id: UUID(),
+            description: "any description",
+            location: "any location",
+            imageURL: URL(string: "http://any-url.com/")!)
         
-        let itemJSON = [
-            "items": [item1JSON]
-        ]
-        
-        expect(sut, toCompleteWithResult: .success([item1])) {
-            let json = try! JSONSerialization.data(withJSONObject: itemJSON)
+        expect(sut, toCompleteWithResult: .success([item1, item2])) {
+            let json = makeItemJSON([json1, json2])
             client.complete(withStatusCode: 200, data: json)
         }
     }
@@ -117,6 +112,30 @@ class RemoteFeedLoaderTests: XCTestCase {
         let client = HTTPClientSpy()
         let sut =  RemoteFeedLoader(url: url, client: client)
         return (sut, client)
+    }
+    
+    private func makeItem(id: UUID, description: String? = nil, location: String? = nil, imageURL: URL) -> (model: FeedItem, json: [String: String]) {
+        
+        let item = FeedItem(
+            id: id,
+            description: description,
+            location: location,
+            imageURL: imageURL
+        )
+        
+        let json = [
+            "id": id.uuidString,
+            "description": description,
+            "location": location,
+            "image": imageURL.absoluteString
+        ].compactMapValues { $0 }
+        
+        return (item, json)
+    }
+    
+    private func makeItemJSON(_ items: [[String: Any]]) -> Data {
+        let json = ["items": items]
+        return try! JSONSerialization.data(withJSONObject: json)
     }
     
     //MARK: - Spies
