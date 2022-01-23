@@ -43,14 +43,15 @@ class RemoteFeedLoaderTests: XCTestCase {
         }
     }
     
-    func test_load_deliversErrorOnNon200HTTPResponse() {
+    func test_load_deliversErrorOnNon200HTTPResponseWithEmptyJSON() {
         let (sut, client) = makeSUT()
     
         let samples = [0, 199, 201, 300, 400, 500]
    
         samples.enumerated().forEach { index, code in
             expect(sut, toCompleteWithResult: .failure(.invalidData)) {
-                client.complete(withStatusCode: code, at: index)
+                let json = makeJSONPayload([])
+                client.complete(withStatusCode: code, data: json, at: index)
             }
         }
     }
@@ -89,7 +90,7 @@ class RemoteFeedLoaderTests: XCTestCase {
             imageURL: URL(string: "http://any-url.com/")!)
         
         expect(sut, toCompleteWithResult: .success([item1, item2])) {
-            let json = makeItemJSON([json1, json2])
+            let json = makeJSONPayload([json1, json2])
             client.complete(withStatusCode: 200, data: json)
         }
     }
@@ -133,7 +134,7 @@ class RemoteFeedLoaderTests: XCTestCase {
         return (item, json)
     }
     
-    private func makeItemJSON(_ items: [[String: Any]]) -> Data {
+    private func makeJSONPayload(_ items: [[String: Any]]) -> Data {
         let json = ["items": items]
         return try! JSONSerialization.data(withJSONObject: json)
     }
@@ -154,7 +155,7 @@ class RemoteFeedLoaderTests: XCTestCase {
             messages[index].completion(.failure(error))
         }
         
-        func complete(withStatusCode code: Int, data: Data = Data(), at index: Int = 0) {
+        func complete(withStatusCode code: Int, data: Data, at index: Int = 0) {
             let response = HTTPURLResponse(
                 url: requestedURLs[index],
                 statusCode: code,
