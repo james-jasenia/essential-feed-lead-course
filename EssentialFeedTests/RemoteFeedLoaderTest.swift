@@ -70,7 +70,7 @@ class RemoteFeedLoaderTests: XCTestCase {
         
         expect(sut, toCompleteWithResult: .success([])) {
             //Probably could have used JSONSerialisation here to make the test conventions more consistent
-            let emptyJSON = Data(bytes: "{\"items\": []}".utf8)
+            let emptyJSON = makeJSONPayload([])
             client.complete(withStatusCode: 200, data: emptyJSON)
         }
     }
