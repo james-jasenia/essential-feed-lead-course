@@ -30,7 +30,7 @@ class URLSessionHTTPClientTests: XCTestCase {
         let url = URL(string: "http://any-url.com/")!
         let expetectedError = NSError(domain: "", code: 0, userInfo: nil)
         
-        URLProtocolStub.stub(url: url, data: nil, response: nil, error: expetectedError)
+        URLProtocolStub.stub(data: nil, response: nil, error: expetectedError)
         
         let sut = URLSessionHTTPClient()
         let exp = expectation(description: "Wait for completion")
@@ -54,7 +54,7 @@ class URLSessionHTTPClientTests: XCTestCase {
     
     //MARK: - Helpers
     private class URLProtocolStub: URLProtocol {
-        private static var stubs = [URL: Stub]()
+        private static var stub: Stub?
         
         private struct Stub {
             let data: Data?
@@ -62,8 +62,8 @@ class URLSessionHTTPClientTests: XCTestCase {
             let error: NSError?
         }
         
-        static func stub(url: URL, data: Data?, response: URLResponse?, error: NSError?) {
-            stubs[url] = Stub(data: data, response: response, error: error)
+        static func stub(data: Data?, response: URLResponse?, error: NSError?) {
+            stub = Stub(data: data, response: response, error: error)
         }
         
         static func startInterceptingRequests() {
@@ -72,19 +72,12 @@ class URLSessionHTTPClientTests: XCTestCase {
         
         static func stopInterceptingRequests() {
             URLProtocol.unregisterClass(URLProtocolStub.self)
-            stubs = [:]
+            stub = nil
         }
-        
-        //If we return true, it means that we can handle this request and it is our responsibility to complete with either success or failure. We have intercepted this request and we have control over it's fate. A live network call is no longer being made.
-        
-        //Because canInit is called as a class method, which means we don't have an instance of this class yet. The only way to access the methods and properties needed in this method is to make them static.
+                
         override class func canInit(with request: URLRequest) -> Bool {
-            
-            //If we don't have a url for the request, we can't handle the request
-            guard let url = request.url else { return false }
-            
-            //Will return true if we have a url, or it will return false if we don't. I am tempted to put another guard let and throw a fatal error as the developer has forgotten to stub the url in the test.
-            return URLProtocolStub.stubs[url] != nil
+            //We are always intercenpting the requests now, therefore, we are never actually hitting the network now.
+            return true
         }
         
         
@@ -93,23 +86,19 @@ class URLSessionHTTPClientTests: XCTestCase {
         }
         
         override func startLoading() {
-            //request is an instance property of the URLProtocol class.
-            guard let url = request.url, let stub = URLProtocolStub.stubs[url] else { return }
-            
-            if let data = stub.data {
+            if let data = URLProtocolStub.stub?.data {
                 client?.urlProtocol(self, didLoad: data)
             }
             
-            if let response = stub.response {
+            if let response = URLProtocolStub.stub?.response {
                 client?.urlProtocol(self, didReceive: response, cacheStoragePolicy: .notAllowed)
             }
             
-            if let error = stub.error {
+            if let error = URLProtocolStub.stub?.error {
                 client?.urlProtocol(self, didFailWithError: error)
             }
         }
         
-        //Subclassing you need to override this method otherwise you will get a crash.
         override func stopLoading() {}
     }
     
