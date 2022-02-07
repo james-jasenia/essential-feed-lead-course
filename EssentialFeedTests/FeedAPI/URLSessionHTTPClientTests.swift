@@ -177,11 +177,6 @@ class URLSessionHTTPClientTests: XCTestCase {
         }
                 
         override class func canInit(with request: URLRequest) -> Bool {
-            
-            //Everytime a request is intiated we can invoke the observer passing the request
-            capturedRequestObserver?(request)
-            
-            //We are always intercenpting the requests now, therefore, we are never actually hitting the network now.
             return true
         }
         
