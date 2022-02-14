@@ -18,7 +18,7 @@ class CacheFeedUseCaseTest: XCTestCase {
     func test_save_requestsCacheDeletion() {
         let (sut, store) = makeSUT()
         
-        sut.save(anyUnqiueItems().domain) { _ in }
+        sut.save(anyUnqiueImages().domain) { _ in }
         
         XCTAssertEqual(store.receievedMessages, [.deletion])
     }
@@ -27,7 +27,7 @@ class CacheFeedUseCaseTest: XCTestCase {
         let (sut, store) = makeSUT()
         let deletionError = anyNSError()
         
-        sut.save(anyUnqiueItems().domain) { _ in }
+        sut.save(anyUnqiueImages().domain) { _ in }
         store.completeDeletion(with: deletionError)
         
         XCTAssertEqual(store.receievedMessages, [.deletion])
@@ -36,12 +36,12 @@ class CacheFeedUseCaseTest: XCTestCase {
     func test_save_requestNewCacheInsertionWithTimestampOnSuccessfulDeletion() {
         let timestamp = Date()
         let (sut, store) = makeSUT(currentDate: { timestamp })
-        let items = anyUnqiueItems()
+        let feed = anyUnqiueImages()
         
-        sut.save(items.domain) { _ in }
+        sut.save(feed.domain) { _ in }
         store.completeDeletionSuccessfully()
         
-        XCTAssertEqual(store.receievedMessages, [.deletion, .insertion(items.local, timestamp)])
+        XCTAssertEqual(store.receievedMessages, [.deletion, .insertion(feed.local, timestamp)])
     }
     
     func test_save_failsUponDeletionError() {
@@ -76,7 +76,7 @@ class CacheFeedUseCaseTest: XCTestCase {
         var sut: LocalFeedLoader? = LocalFeedLoader(store: store, currentDate: Date.init)
         
         var receievedResults = [LocalFeedLoader.SaveResult]()
-        sut?.save(anyUnqiueItems().domain, completion: { error in
+        sut?.save(anyUnqiueImages().domain, completion: { error in
             receievedResults.append(error)
         })
         
@@ -91,7 +91,7 @@ class CacheFeedUseCaseTest: XCTestCase {
         var sut: LocalFeedLoader? = LocalFeedLoader(store: store, currentDate: Date.init)
         
         var receievedResults = [LocalFeedLoader.SaveResult]()
-        sut?.save(anyUnqiueItems().domain, completion: { error in
+        sut?.save(anyUnqiueImages().domain, completion: { error in
             receievedResults.append(error)
         })
         
@@ -117,7 +117,7 @@ class CacheFeedUseCaseTest: XCTestCase {
         let exp = expectation(description: "Wait for completion")
         
         var capturedError: Error?
-        sut.save([anyUnqiueItem()]) { receivedError in
+        sut.save([anyUnqiueImage()]) { receivedError in
             if let receivedError = receivedError { capturedError = receivedError }
             exp.fulfill()
         }
@@ -129,18 +129,18 @@ class CacheFeedUseCaseTest: XCTestCase {
         XCTAssertEqual(capturedError as NSError?, expectedError)
     }
     
-    private func anyUnqiueItem() -> FeedItem {
-        return FeedItem(
+    private func anyUnqiueImage() -> FeedImage {
+        return FeedImage(
             id: UUID(),
             description: "any description",
             location: "any location",
-            imageURL: anyURL()
+            url: anyURL()
         )
     }
     
-    private func anyUnqiueItems() -> (domain: [FeedItem], local: [LocalFeedItem]) {
-        let domain = [anyUnqiueItem(), anyUnqiueItem()]
-        let local = domain.map { LocalFeedItem(id: $0.id, description: $0.description, location: $0.location, imageURL: $0.imageURL) }
+    private func anyUnqiueImages() -> (domain: [FeedImage], local: [LocalFeedImage]) {
+        let domain = [anyUnqiueImage(), anyUnqiueImage()]
+        let local = domain.map { LocalFeedImage(id: $0.id, description: $0.description, location: $0.location, url: $0.url) }
         return (domain, local)
     }
     
@@ -163,14 +163,14 @@ class CacheFeedUseCaseTest: XCTestCase {
             receievedMessages.append(.deletion)
         }
         
-        func insert(_ items: [LocalFeedItem], timestamp: Date, completion: @escaping InsertionCompletion) {
+        func insert(_ feed: [LocalFeedImage], timestamp: Date, completion: @escaping InsertionCompletion) {
             insertionCompletion.append(completion)
-            receievedMessages.append(.insertion(items, timestamp))
+            receievedMessages.append(.insertion(feed, timestamp))
         }
         
         enum ReceievedMessage: Equatable {
             case deletion
-            case insertion([LocalFeedItem], Date)
+            case insertion([LocalFeedImage], Date)
         }
         
         func completeInsertion(with error: Error, at index: Int = 0) {
