@@ -18,7 +18,7 @@ class CacheFeedUseCaseTest: XCTestCase {
     func test_save_requestsCacheDeletion() {
         let (sut, store) = makeSUT()
         
-        sut.save(anyUnqiueImages().domain) { _ in }
+        sut.save(anyUnqiueImagesFeed().domain) { _ in }
         
         XCTAssertEqual(store.receievedMessages, [.deletion])
     }
@@ -27,7 +27,7 @@ class CacheFeedUseCaseTest: XCTestCase {
         let (sut, store) = makeSUT()
         let deletionError = anyNSError()
         
-        sut.save(anyUnqiueImages().domain) { _ in }
+        sut.save(anyUnqiueImagesFeed().domain) { _ in }
         store.completeDeletion(with: deletionError)
         
         XCTAssertEqual(store.receievedMessages, [.deletion])
@@ -36,7 +36,7 @@ class CacheFeedUseCaseTest: XCTestCase {
     func test_save_requestNewCacheInsertionWithTimestampOnSuccessfulDeletion() {
         let timestamp = Date()
         let (sut, store) = makeSUT(currentDate: { timestamp })
-        let feed = anyUnqiueImages()
+        let feed = anyUnqiueImagesFeed()
         
         sut.save(feed.domain) { _ in }
         store.completeDeletionSuccessfully()
@@ -76,7 +76,7 @@ class CacheFeedUseCaseTest: XCTestCase {
         var sut: LocalFeedLoader? = LocalFeedLoader(store: store, currentDate: Date.init)
         
         var receievedResults = [LocalFeedLoader.SaveResult]()
-        sut?.save(anyUnqiueImages().domain, completion: { error in
+        sut?.save(anyUnqiueImagesFeed().domain, completion: { error in
             receievedResults.append(error)
         })
         
@@ -91,7 +91,7 @@ class CacheFeedUseCaseTest: XCTestCase {
         var sut: LocalFeedLoader? = LocalFeedLoader(store: store, currentDate: Date.init)
         
         var receievedResults = [LocalFeedLoader.SaveResult]()
-        sut?.save(anyUnqiueImages().domain, completion: { error in
+        sut?.save(anyUnqiueImagesFeed().domain, completion: { error in
             receievedResults.append(error)
         })
         
@@ -138,7 +138,7 @@ class CacheFeedUseCaseTest: XCTestCase {
         )
     }
     
-    private func anyUnqiueImages() -> (domain: [FeedImage], local: [LocalFeedImage]) {
+    private func anyUnqiueImagesFeed() -> (domain: [FeedImage], local: [LocalFeedImage]) {
         let domain = [anyUnqiueImage(), anyUnqiueImage()]
         let local = domain.map { LocalFeedImage(id: $0.id, description: $0.description, location: $0.location, url: $0.url) }
         return (domain, local)

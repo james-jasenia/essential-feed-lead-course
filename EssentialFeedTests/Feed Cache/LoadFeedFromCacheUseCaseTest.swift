@@ -39,15 +39,16 @@ class LoadFeedFromCacheUseCaseTests: XCTestCase {
         })
     }
     
-//    func test_load_deliversImagesOnLessThanSevenDaysOldCache() {
-//        let lessThanSevenDaysOldTimestamp = Date()
-//        let expectedItems = [makeAnyImage(), makeAnyImage()]
-//
-//        let (sut, store) = makeSUT()
-//        expect(sut, toCompleteWith: .success(expectedItems), when: {
-//            store.completeRetrieval(with: expectedItems, timestamp: lessThanSevenDaysOldTimestamp)
-//        })
-//    }
+    func test_load_deliversImagesOnLessThanSevenDaysOldCache() {
+        let fixedCurrentDate = Date()
+        let lessThanSevenDaysOldTimestamp = fixedCurrentDate.adding(days: -7).adding(seconds: 1)
+        let feed = anyUnqiueImagesFeed()
+
+        let (sut, store) = makeSUT(currentDate: { fixedCurrentDate })
+        expect(sut, toCompleteWith: .success(feed.domain), when: {
+            store.completeRetrieval(with: feed.local, timestamp: lessThanSevenDaysOldTimestamp)
+        })
+    }
     
     // MARK: - Helpers
     
@@ -80,20 +81,19 @@ class LoadFeedFromCacheUseCaseTests: XCTestCase {
         wait(for: [exp], timeout: 1.0)
     }
     
-    private func makeAnyImage() -> FeedImage {
-        return makeImage(id: UUID(), description: "any description", location: "any location", imageURL: anyURL())
+    private func anyUnqiueImage() -> FeedImage {
+        return FeedImage(
+            id: UUID(),
+            description: "any description",
+            location: "any location",
+            url: anyURL()
+        )
     }
     
-    private func makeImage(id: UUID, description: String? = nil, location: String? = nil, imageURL: URL) -> FeedImage {
-        
-        let image = FeedImage(
-            id: id,
-            description: description,
-            location: location,
-            url: imageURL
-        )
-        
-        return image
+    private func anyUnqiueImagesFeed() -> (domain: [FeedImage], local: [LocalFeedImage]) {
+        let domain = [anyUnqiueImage(), anyUnqiueImage()]
+        let local = domain.map { LocalFeedImage(id: $0.id, description: $0.description, location: $0.location, url: $0.url) }
+        return (domain, local)
     }
     
     
@@ -105,3 +105,15 @@ class LoadFeedFromCacheUseCaseTests: XCTestCase {
         return NSError(domain: "", code: 0, userInfo: nil)
     }
 }
+
+private extension Date {
+    func adding(days: Int) -> Date {
+        return Calendar(identifier: .gregorian).date(byAdding: .day, value: days, to: self)!
+    }
+    
+    func adding(seconds: TimeInterval) -> Date {
+        return self + seconds
+    }
+}
+
+
