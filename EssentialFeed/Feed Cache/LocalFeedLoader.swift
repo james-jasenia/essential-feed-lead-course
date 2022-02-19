@@ -51,10 +51,10 @@ public final class LocalFeedLoader {
     public func validateCache() {
         store.retrieve() { [unowned self] result in
             switch result {
-            case .empty:
-                break
-            default:
+            case .failure:
                 self.store.deleteCachedFeed() { _ in }
+            default:
+                break
             }
         }
     }
