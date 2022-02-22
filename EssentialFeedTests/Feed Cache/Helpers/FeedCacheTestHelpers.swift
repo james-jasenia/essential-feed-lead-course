@@ -8,7 +8,7 @@
 import Foundation
 import EssentialFeed
 
-func anyUnqiueImagesFeed() -> (domain: [FeedImage], local: [LocalFeedImage]) {
+func anyUnqiueImageFeed() -> (domain: [FeedImage], local: [LocalFeedImage]) {
     let domain = [anyUnqiueImage(), anyUnqiueImage()]
     let local = domain.map { LocalFeedImage(id: $0.id, description: $0.description, location: $0.location, url: $0.url) }
     return (domain, local)

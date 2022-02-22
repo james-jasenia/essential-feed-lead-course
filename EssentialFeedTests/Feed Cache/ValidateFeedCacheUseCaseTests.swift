@@ -38,7 +38,7 @@ class ValidateFeedCacheUseCaseTest: XCTestCase {
     func test_validateCache_doesNotDeleteOnNonExpiredCache() {
         let fixedCurrentDate = Date()
         let nonExpiredTimestamp = fixedCurrentDate.minusFeedCacheMaxAge().adding(seconds: 1)
-        let anyFeed = anyUnqiueImagesFeed()
+        let anyFeed = anyUnqiueImageFeed()
         
         let (sut, store) = makeSUT(currentDate: { fixedCurrentDate })
         
@@ -51,7 +51,7 @@ class ValidateFeedCacheUseCaseTest: XCTestCase {
     func test_validateCache_deletesCacheOnCacheExpiration() {
         let fixedCurrentDate = Date()
         let expirationTimestamp = fixedCurrentDate.minusFeedCacheMaxAge()
-        let anyFeed = anyUnqiueImagesFeed()
+        let anyFeed = anyUnqiueImageFeed()
         
         let (sut, store) = makeSUT(currentDate: { fixedCurrentDate })
         
@@ -64,7 +64,7 @@ class ValidateFeedCacheUseCaseTest: XCTestCase {
     func test_validateCache_deletesCacheOnExpiredCache() {
         let fixedCurrentDate = Date()
         let expiredimestamp = fixedCurrentDate.minusFeedCacheMaxAge().adding(seconds: -1)
-        let anyFeed = anyUnqiueImagesFeed()
+        let anyFeed = anyUnqiueImageFeed()
         
         let (sut, store) = makeSUT(currentDate: { fixedCurrentDate })
         

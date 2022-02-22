@@ -18,7 +18,7 @@ class SaveFeedToCacheUseCaseTest: XCTestCase {
     func test_save_requestsCacheDeletion() {
         let (sut, store) = makeSUT()
         
-        sut.save(anyUnqiueImagesFeed().domain) { _ in }
+        sut.save(anyUnqiueImageFeed().domain) { _ in }
         
         XCTAssertEqual(store.receievedMessages, [.deletion])
     }
@@ -27,7 +27,7 @@ class SaveFeedToCacheUseCaseTest: XCTestCase {
         let (sut, store) = makeSUT()
         let deletionError = anyNSError()
         
-        sut.save(anyUnqiueImagesFeed().domain) { _ in }
+        sut.save(anyUnqiueImageFeed().domain) { _ in }
         store.completeDeletion(with: deletionError)
         
         XCTAssertEqual(store.receievedMessages, [.deletion])
@@ -36,7 +36,7 @@ class SaveFeedToCacheUseCaseTest: XCTestCase {
     func test_save_requestNewCacheInsertionWithTimestampOnSuccessfulDeletion() {
         let timestamp = Date()
         let (sut, store) = makeSUT(currentDate: { timestamp })
-        let feed = anyUnqiueImagesFeed()
+        let feed = anyUnqiueImageFeed()
         
         sut.save(feed.domain) { _ in }
         store.completeDeletionSuccessfully()
@@ -76,7 +76,7 @@ class SaveFeedToCacheUseCaseTest: XCTestCase {
         var sut: LocalFeedLoader? = LocalFeedLoader(store: store, currentDate: Date.init)
         
         var receievedResults = [LocalFeedLoader.SaveResult]()
-        sut?.save(anyUnqiueImagesFeed().domain, completion: { error in
+        sut?.save(anyUnqiueImageFeed().domain, completion: { error in
             receievedResults.append(error)
         })
         
@@ -91,7 +91,7 @@ class SaveFeedToCacheUseCaseTest: XCTestCase {
         var sut: LocalFeedLoader? = LocalFeedLoader(store: store, currentDate: Date.init)
         
         var receievedResults = [LocalFeedLoader.SaveResult]()
-        sut?.save(anyUnqiueImagesFeed().domain, completion: { error in
+        sut?.save(anyUnqiueImageFeed().domain, completion: { error in
             receievedResults.append(error)
         })
         
