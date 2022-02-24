@@ -78,16 +78,16 @@ class CodableFeedStoreTests: XCTestCase {
         undoStoreSideEffects()
     }
     
-    func test_retrieves_deliversEmptyOnEmptyCache() {
+    func test_retrieve_deliversEmptyOnEmptyCache() {
         let sut = makeSUT()
         
         expect(sut, toRetrieve: .empty)
     }
     
-    func test_retrieves_hasNoSideEffectsOnEmptyCache() {
+    func test_retrieve_hasNoSideEffectsOnEmptyCache() {
         let sut = makeSUT()
         
-        expect(sut, toRetrieve: .empty)
+        expect(sut, toRetrieveTwice: .empty)
     }
     
     func test_retrievesAfterInsertingToEmptyCache_deliversInsertedValues() {
@@ -117,8 +117,7 @@ class CodableFeedStoreTests: XCTestCase {
         }
         wait(for: [exp], timeout: 1.0)
         
-        expect(sut, toRetrieve: .found(feed: feed, timestamp: timestamp))
-        expect(sut, toRetrieve: .found(feed: feed, timestamp: timestamp))
+        expect(sut, toRetrieveTwice: .found(feed: feed, timestamp: timestamp))
     }
     
     
@@ -151,6 +150,11 @@ class CodableFeedStoreTests: XCTestCase {
         }
         
         wait(for: [exp], timeout: 1.0)
+    }
+    
+    private func expect(_ sut: CodableFeedStore, toRetrieveTwice expectedResult: RetrieveCacheFeedResult, file: StaticString = #filePath, line: UInt = #line) {
+        expect(sut, toRetrieve: expectedResult, file: file, line: line)
+        expect(sut, toRetrieve: expectedResult, file: file, line: line)
     }
     
     private func setupEmptyStoreState() {
