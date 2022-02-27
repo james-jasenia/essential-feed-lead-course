@@ -7,16 +7,18 @@
 
 import Foundation
 
+//MARK: -- LocalFeedLoader
 public final class LocalFeedLoader {
     private let store: FeedStore
     private let currentDate: () -> Date
-        
+    
     public init(store: FeedStore, currentDate: @escaping () -> Date) {
         self.store = store
         self.currentDate = currentDate
     }
 }
 
+//MARK: -- Save Use Case
 extension LocalFeedLoader {
     public typealias SaveResult = Error?
     
@@ -44,6 +46,7 @@ extension LocalFeedLoader {
     }
 }
 
+//MARK: -- Load Use Case
 extension LocalFeedLoader: FeedLoader {
     public typealias LoadResult = LoadFeedResult
     
@@ -62,7 +65,7 @@ extension LocalFeedLoader: FeedLoader {
         }
     }
 }
- 
+//MARK: -- Validate Use Case
 extension LocalFeedLoader {
     
     public func validateCache() {
@@ -72,16 +75,17 @@ extension LocalFeedLoader {
             switch result {
             case .failure:
                 self.store.deleteCachedFeed() { _ in }
-            
+                
             case let .found(_, timestamp) where !FeedCachePolicy.validate(timestamp, against: self.currentDate()):
                 self.store.deleteCachedFeed() { _ in }
-            
+                
             case .empty, .found: break
             }
         }
     }
 }
 
+//MARK: -- Mappers
 private extension Array where Element == FeedImage {
     func toLocalFeedImage() -> [LocalFeedImage] {
         return map { LocalFeedImage(
