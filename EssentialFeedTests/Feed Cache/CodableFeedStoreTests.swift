@@ -76,11 +76,15 @@ class CodableFeedStore {
     
     func deleteCachedFeed(completion: @escaping FeedStore.DeletionCompletion) {
         guard FileManager.default.fileExists(atPath: storeURL.path) else {
-             return completion(nil)
-         }
+            return completion(nil)
+        }
         
-        try! FileManager.default.removeItem(at: storeURL)
-        completion(nil)
+        do {
+            try FileManager.default.removeItem(at: storeURL)
+            completion(nil)
+        } catch {
+            completion(error)
+        }
     }
 }
 
@@ -148,18 +152,18 @@ class CodableFeedStoreTests: XCTestCase {
     }
     
     func test_insert_overridesPreviouslyInsertedCacheValues() {
-         let sut = makeSUT()
-
-         let firstInsertionError = insert((anyUnqiueImageFeed().local, Date()), to: sut)
-         XCTAssertNil(firstInsertionError, "Expected to insert cache successfully")
-
-         let latestFeed = anyUnqiueImageFeed().local
-         let latestTimestamp = Date()
-         let latestInsertionError = insert((latestFeed, latestTimestamp), to: sut)
-
-         XCTAssertNil(latestInsertionError, "Expected to override cache successfully")
-         expect(sut, toRetrieve: .found(feed: latestFeed, timestamp: latestTimestamp))
-     }
+        let sut = makeSUT()
+        
+        let firstInsertionError = insert((anyUnqiueImageFeed().local, Date()), to: sut)
+        XCTAssertNil(firstInsertionError, "Expected to insert cache successfully")
+        
+        let latestFeed = anyUnqiueImageFeed().local
+        let latestTimestamp = Date()
+        let latestInsertionError = insert((latestFeed, latestTimestamp), to: sut)
+        
+        XCTAssertNil(latestInsertionError, "Expected to override cache successfully")
+        expect(sut, toRetrieve: .found(feed: latestFeed, timestamp: latestTimestamp))
+    }
     
     func test_insert_deliversErrorOnInsertionError() {
         let invalidStoreURL = URL(string: "invalid:store-url//")!
@@ -181,18 +185,28 @@ class CodableFeedStoreTests: XCTestCase {
     }
     
     func test_delete_emptiesPreviouslyInsertedCache() {
-         let sut = makeSUT()
-         insert((anyUnqiueImageFeed().local, Date()), to: sut)
-
-         let exp = expectation(description: "Wait for cache deletion")
-         sut.deleteCachedFeed { deletionError in
-             XCTAssertNil(deletionError, "Expected non-empty cache deletion to succeed")
-             exp.fulfill()
-         }
-         wait(for: [exp], timeout: 1.0)
-
-         expect(sut, toRetrieve: .empty)
-     }
+        let sut = makeSUT()
+        insert((anyUnqiueImageFeed().local, Date()), to: sut)
+        
+        let exp = expectation(description: "Wait for cache deletion")
+        sut.deleteCachedFeed { deletionError in
+            XCTAssertNil(deletionError, "Expected non-empty cache deletion to succeed")
+            exp.fulfill()
+        }
+        wait(for: [exp], timeout: 1.0)
+        
+        expect(sut, toRetrieve: .empty)
+    }
+    
+    func test_delete_deliversErrorOnDeletionError() {
+        let noDeletePermissionURL = cachesDirectory()
+        let sut = makeSUT(storeURL: noDeletePermissionURL)
+        
+        let deletionError = deleteCache(from: sut)
+        
+        XCTAssertNotNil(deletionError, "Expected cache deletion to fail")
+        expect(sut, toRetrieve: .empty)
+    }
     
     
     //MARK: -- Helpers
@@ -233,7 +247,7 @@ class CodableFeedStoreTests: XCTestCase {
         
         sut.retrieve() { retrievedResult in
             switch (retrievedResult, expectedResult) {
-            
+                
             case (.empty, .empty), (.failure, .failure):
                 break
                 
@@ -269,6 +283,10 @@ class CodableFeedStoreTests: XCTestCase {
     }
     
     private func makeTestSpecificStoreURL() -> URL {
-        return FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first!.appendingPathComponent("\(type(of: self)).store")
+        return cachesDirectory().appendingPathComponent("\(type(of: self)).store")
+    }
+    
+    private func cachesDirectory() -> URL {
+        return FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first!
     }
 }
