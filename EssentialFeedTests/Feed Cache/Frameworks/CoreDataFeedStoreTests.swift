@@ -24,31 +24,33 @@ class CoreDataFeedStoreTests: XCTestCase, FailableFeedStoreSpec {
     
     func test_retrieve_deliversFoundValuesOnNonEmptyCache() {
         let sut = makeSUT()
-
+        
         assertThatRetrieveDeliversFoundValuesOnNonEmptyCache(on: sut)
         
     }
     
     func test_retrieve_HasNoSideEffectsOnNonEmptyCache() {
         let sut = makeSUT()
-
-                 assertThatRetrieveHasNoSideEffectsOnNonEmptyCache(on: sut)
+        
+        assertThatRetrieveHasNoSideEffectsOnNonEmptyCache(on: sut)
     }
     
     func test_insert_deliversNoErrorOnEmptyCache() {
         let sut = makeSUT()
-
+        
         assertThatInsertDeliversNoErrorOnEmptyCache(on: sut)
     }
     
     func test_insert_deliversNoErrorOnNonEmptyCache() {
         let sut = makeSUT()
-
+        
         assertThatInsertDeliversNoErrorOnNonEmptyCache(on: sut)
     }
     
     func test_insert_overridesPreviouslyInsertedCacheValues() {
+        let sut = makeSUT()
         
+        assertThatInsertOverridesPreviouslyInsertedCacheValues(on: sut)
     }
     
     func test_delete_hasNoSideEffectsOnEmptyCache() {
