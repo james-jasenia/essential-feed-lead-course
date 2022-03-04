@@ -38,12 +38,6 @@ class CodableFeedStoreTests: XCTestCase, FailableFeedStoreSpec {
         assertThatRetrieveDeliversFoundValuesOnNonEmptyCache(on: sut)
     }
     
-    func test_retrieve_HasNoSideEffectsOnNonEmptyCache() {
-        let sut = makeSUT()
-        
-        assertThatRetrieveHasNoSideEffectsOnEmptyCache(on: sut)
-    }
-    
     func test_retrieve_deliversFailureOnRetrievalError() {
         let storeURL = makeTestSpecificStoreURL()
         let sut = makeSUT(storeURL: storeURL)
@@ -51,6 +45,12 @@ class CodableFeedStoreTests: XCTestCase, FailableFeedStoreSpec {
         try! "invalid data".write(to: storeURL, atomically: false, encoding: .utf8)
         
         assertThatRetrieveDeliversFailureOnRetrievalError(on: sut)
+    }
+    
+    func test_retrieve_hasNoSideEffectsOnNonEmptyCache() {
+        let sut = makeSUT()
+        
+        assertThatRetrieveHasNoSideEffectsOnEmptyCache(on: sut)
     }
     
     func test_insert_deliversNoErrorOnEmptyCache() {

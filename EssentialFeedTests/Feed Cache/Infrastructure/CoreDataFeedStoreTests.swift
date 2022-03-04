@@ -8,7 +8,7 @@
 import XCTest
 import EssentialFeed
 
-class CoreDataFeedStoreTests: XCTestCase, FailableFeedStoreSpec {
+class CoreDataFeedStoreTests: XCTestCase, FeedStoreSpecs {
     
     func test_retrieve_deliversEmptyOnEmptyCache() {
         let sut = makeSUT()
@@ -26,10 +26,9 @@ class CoreDataFeedStoreTests: XCTestCase, FailableFeedStoreSpec {
         let sut = makeSUT()
         
         assertThatRetrieveDeliversFoundValuesOnNonEmptyCache(on: sut)
-        
     }
     
-    func test_retrieve_HasNoSideEffectsOnNonEmptyCache() {
+    func test_retrieve_hasNoSideEffectsOnNonEmptyCache() {
         let sut = makeSUT()
         
         assertThatRetrieveHasNoSideEffectsOnNonEmptyCache(on: sut)
@@ -61,51 +60,20 @@ class CoreDataFeedStoreTests: XCTestCase, FailableFeedStoreSpec {
     
     func test_delete_hasNoSideEffectsOnEmptyCache() {
         let sut = makeSUT()
-
-                 assertThatDeleteHasNoSideEffectsOnEmptyCache(on: sut)
+        
+        assertThatDeleteHasNoSideEffectsOnEmptyCache(on: sut)
     }
     
     func test_delete_deliversNoErrorOnNonEmptyCache() {
-
-             let sut = makeSUT()
-
-             assertThatDeleteDeliversNoErrorOnNonEmptyCache(on: sut)
-         }
+        let sut = makeSUT()
+        
+        assertThatDeleteDeliversNoErrorOnNonEmptyCache(on: sut)
+    }
     
     func test_delete_emptiesPreviouslyInsertedCache() {
         let sut = makeSUT()
-
-                 assertThatDeleteEmptiesPreviouslyInsertedCache(on: sut)
-    }
-    
-    func test_sideEffects_runSerially() {
-        let sut = makeSUT()
-
-                 assertThatSideEffectsRunSerially(on: sut)
-    }
-    
-    func test_insert_deliversErrorOnInsertionError() {
         
-    }
-    
-    func test_insert_hasNoSideEffectsOnInsertionError() {
-        
-    }
-    
-    func test_delete_deliversErrorOnDeletionError() {
-        
-    }
-    
-    func test_delete_hasNoSideEffectsOnDeletionError() {
-        
-    }
-    
-    func test_retrieve_deliversFailureOnRetrievalError() {
-        
-    }
-    
-    func test_retrieve_hasNoSideEffectsOnRetrievalError() {
-        
+        assertThatDeleteEmptiesPreviouslyInsertedCache(on: sut)
     }
     
     //MARK: - Helpers
