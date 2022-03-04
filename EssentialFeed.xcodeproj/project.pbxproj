@@ -231,12 +231,28 @@
 		C455894627D2265B00DF3431 /* Infrastructure */ = {
 			isa = PBXGroup;
 			children = (
+				C455894A27D2275400DF3431 /* File System */,
+				C455894927D2274700DF3431 /* Core Data */,
+			);
+			path = Infrastructure;
+			sourceTree = "<group>";
+		};
+		C455894927D2274700DF3431 /* Core Data */ = {
+			isa = PBXGroup;
+			children = (
 				C402CBEB27D1CA78009CD9B1 /* FeedStore.xcdatamodeld */,
-				C49E85FE27CC17D7003B7C26 /* CodableFeedStore.swift */,
 				C402CBE927D1C62A009CD9B1 /* CoreDataFeedStore.swift */,
 				C455894727D226F800DF3431 /* CoreDataHelpers.swift */,
 			);
-			path = Infrastructure;
+			path = "Core Data";
+			sourceTree = "<group>";
+		};
+		C455894A27D2275400DF3431 /* File System */ = {
+			isa = PBXGroup;
+			children = (
+				C49E85FE27CC17D7003B7C26 /* CodableFeedStore.swift */,
+			);
+			path = "File System";
 			sourceTree = "<group>";
 		};
 		C493E7AD27A63ECC005D58D2 /* Helpers */ = {
