@@ -138,13 +138,13 @@
 			path = Specs;
 			sourceTree = "<group>";
 		};
-		C402CBE727D1C5F1009CD9B1 /* Frameworks */ = {
+		C402CBE727D1C5F1009CD9B1 /* Infrastructure */ = {
 			isa = PBXGroup;
 			children = (
 				C45BA00527C5770F00300AA3 /* CodableFeedStoreTests.swift */,
 				C402CBE527D1C552009CD9B1 /* CoreDataFeedStoreTests.swift */,
 			);
-			path = Frameworks;
+			path = Infrastructure;
 			sourceTree = "<group>";
 		};
 		C402CBE827D1C5FF009CD9B1 /* Use Cases */ = {
@@ -204,7 +204,7 @@
 			children = (
 				C402CBE827D1C5FF009CD9B1 /* Use Cases */,
 				C402CBDE27D1C067009CD9B1 /* Specs */,
-				C402CBE727D1C5F1009CD9B1 /* Frameworks */,
+				C402CBE727D1C5F1009CD9B1 /* Infrastructure */,
 				C44553AB27BA774B0044DF77 /* Helpers */,
 			);
 			path = "Feed Cache";
