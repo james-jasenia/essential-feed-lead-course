@@ -114,6 +114,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		C402CBDE27D1C067009CD9B1 /* Specs */ = {
+			isa = PBXGroup;
+			children = (
+				C402CBDA27D1BBEA009CD9B1 /* FeedStoreSpecs.swift */,
+				C402CBDC27D1BC4D009CD9B1 /* XCTestCase+FeedStoreSpecs.swift */,
+			);
+			path = Specs;
+			sourceTree = "<group>";
+		};
 		C41F191A27AF7AA50098169D /* EssentialFeedAPIEndToEndTests */ = {
 			isa = PBXGroup;
 			children = (
@@ -157,13 +166,12 @@
 		C431FD0C27B8A83A00266584 /* Feed Cache */ = {
 			isa = PBXGroup;
 			children = (
+				C402CBDE27D1C067009CD9B1 /* Specs */,
 				C44553AB27BA774B0044DF77 /* Helpers */,
 				C431FD0D27B8A85900266584 /* SaveFeedToCacheUseCaseTest.swift */,
 				C44553A727BA73A10044DF77 /* LoadFeedFromCacheUseCaseTest.swift */,
 				C4697AC227BFAB26006D97C0 /* ValidateFeedCacheUseCaseTests.swift */,
 				C45BA00527C5770F00300AA3 /* CodableFeedStoreTests.swift */,
-				C402CBDA27D1BBEA009CD9B1 /* FeedStoreSpecs.swift */,
-				C402CBDC27D1BC4D009CD9B1 /* XCTestCase+FeedStoreSpecs.swift */,
 			);
 			path = "Feed Cache";
 			sourceTree = "<group>";
