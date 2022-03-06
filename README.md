@@ -65,18 +65,18 @@ Data:
 - Timestamp
 
 Primary Course:
-1. Execute "Load Feed Items" command
-2. System downloads data from cache
-3. System validates data using the timestamp
-4. System removes invalid data from the cache
-5. System creates feed items
-6. System deliver feed items.
+1. Execute "Load Image Feed" command.
+2. System downloads data from cache.
+3. System validates data using the timestamp.
+4. System removes invalid data from the cache.
+5. System creates image feed.
+6. System deliver images feed.
 
 Invalid data:
-1. System delivers invalid data error
+1. System delivers invalid data error.
 
 No Data:
-1. System delivers no data error
+1. System delivers no data error.
 ```
 
 ### Cache Feed Items Use Case
