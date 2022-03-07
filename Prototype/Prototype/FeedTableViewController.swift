@@ -7,10 +7,14 @@
 
 import UIKit
 
-class FeedViewController: UITableViewController {
+class FeedTableViewController: UITableViewController {
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        10
+    }
+    
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        return tableView.dequeueReusableCell(withIdentifier: "FeedImageCell", for: indexPath)
     }
     
 }
