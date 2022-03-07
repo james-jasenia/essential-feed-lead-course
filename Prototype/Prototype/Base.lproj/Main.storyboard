@@ -111,6 +111,7 @@ Location</string>
                                 <connections>
                                     <outlet property="descirptionLabel" destination="Cog-eb-NTY" id="1zR-gt-mI6"/>
                                     <outlet property="feedImageView" destination="5ma-zZ-i0v" id="5bM-jf-y9Z"/>
+                                    <outlet property="imageContainer" destination="DXy-he-8bb" id="Xb1-b4-3ZX"/>
                                     <outlet property="locationContainer" destination="6l9-E7-anK" id="1cg-sk-yua"/>
                                     <outlet property="locationLabel" destination="F3U-o9-mmb" id="txh-7A-Hag"/>
                                 </connections>
