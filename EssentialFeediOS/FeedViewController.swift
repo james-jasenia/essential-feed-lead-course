@@ -35,7 +35,7 @@ final public class FeedViewController: UITableViewController {
             case let .success(feedImages):
                 self?.tableModel = feedImages
             case .failure(_):
-                self?.tableModel = []
+                break
             }
             
             self?.tableView.reloadData()

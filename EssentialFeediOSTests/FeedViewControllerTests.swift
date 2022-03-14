@@ -32,13 +32,13 @@ final class FeedViewControllerTests: XCTestCase {
         sut.loadViewIfNeeded()
         XCTAssertTrue(sut.isShowLoadingIndicator, "Expected loading indicator once view is loaded.")
         
-        loader.completeLoadingFeed(at: 0)
+        loader.completeFeedLoading(at: 0)
         XCTAssertFalse(sut.isShowLoadingIndicator, "Expected no loading indicator once loading is completed.")
         
         sut.simulateUserInitiatedFeedReload()
         XCTAssertTrue(sut.isShowLoadingIndicator, "Expected loading indicator once user initiates a reload.")
         
-        loader.completeLoadingFeed(at: 1)
+        loader.completeFeedLoading(at: 1)
         XCTAssertFalse(sut.isShowLoadingIndicator, "Expected no loading indicator once user initiated loading is completed.")
     }
     
@@ -52,13 +52,26 @@ final class FeedViewControllerTests: XCTestCase {
         sut.loadViewIfNeeded()
         assertThat(sut, isRendering: [])
         
-        loader.completeLoadingFeed(with: [image0], at: 0)
+        loader.completeFeedLoading(with: [image0], at: 0)
         assertThat(sut, isRendering: [image0])
         
         sut.simulateUserInitiatedFeedReload()
-        loader.completeLoadingFeed(with: [image0, image1, image2, image3], at: 1)
+        loader.completeFeedLoading(with: [image0, image1, image2, image3], at: 1)
         assertThat(sut, isRendering: [image0, image1, image2, image3])
     }
+    
+    func test_loadFeedCompletion_doesNotAlterCurrentRenderingStateOnError() {
+             let image0 = makeImage()
+             let (sut, loader) = makeSUT()
+
+             sut.loadViewIfNeeded()
+             loader.completeFeedLoading(with: [image0], at: 0)
+             assertThat(sut, isRendering: [image0])
+
+             sut.simulateUserInitiatedFeedReload()
+             loader.completeFeedLoadingWithError(at: 1)
+             assertThat(sut, isRendering: [image0])
+         }
     
     private func assertThat(_ sut: FeedViewController, isRendering feed: [FeedImage], file: StaticString = #file, line: UInt = #line) {
         guard sut.numberOfRenderedFeedImageViews() == feed.count else {
@@ -101,9 +114,14 @@ final class FeedViewControllerTests: XCTestCase {
             completions.append(completion)
         }
         
-        func completeLoadingFeed(with feed: [FeedImage] = [], at index: Int = 0) {
+        func completeFeedLoading(with feed: [FeedImage] = [], at index: Int = 0) {
             completions[index](.success(feed))
         }
+        
+        func completeFeedLoadingWithError(at index: Int = 0) {
+                     let error = NSError(domain: "an error", code: 0)
+                     completions[index](.failure(error))
+                 }
     }
     
     private func makeSUT(file: StaticString = #filePath, line: UInt = #line) -> (sut: FeedViewController, loader: LoaderSpy) {
