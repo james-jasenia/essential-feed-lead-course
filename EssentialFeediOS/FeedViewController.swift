@@ -31,15 +31,14 @@ final public class FeedViewController: UITableViewController {
         
         loader?.load { [weak self] result in
             
-            switch result {
-            case let .success(feedImages):
+            if case let .success(feedImages) = result {
                 self?.tableModel = feedImages
-            case .failure(_):
-                break
+                self?.tableView.reloadData()
             }
             
-            self?.tableView.reloadData()
             self?.refreshControl?.endRefreshing()
+
+            
         }
     }
     
