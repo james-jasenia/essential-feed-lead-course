@@ -17,17 +17,7 @@ final class FeedViewControllerTests: XCTestCase {
         
         sut.loadViewIfNeeded()
         
-        let bundle = Bundle(for: FeedViewController.self)
-        let localizedKey = "FEED_VIEW_TITLE"
-        
-        let localizedTitle = bundle.localizedString(
-            forKey: localizedKey,
-            value: nil,
-            table: "Feed"
-        )
-
-        XCTAssertNotEqual(localizedTitle, localizedKey, "Expected the localised title to have a value that is not the localised key: \(localizedKey). The key/value pair is missing from the table.")
-        XCTAssertEqual(sut.title, localizedTitle)
+        XCTAssertEqual(sut.title, localized("FEED_VIEW_TITLE"))
     }
     
     func test_LoadFeedActions_requestsFeedFromLoader() {
@@ -360,6 +350,16 @@ final class FeedViewControllerTests: XCTestCase {
     
     private func makeFeedImage(description: String? = nil, location: String? = nil, url: URL = URL(string: "http://any-url.com")!) -> FeedImage {
         return FeedImage(id: UUID(), description: description, location: location, url: url)
+    }
+    
+    private func localized(_ key: String, file: StaticString = #file, line: UInt = #line) -> String {
+        let table = "Feed"
+        let bundle = Bundle(for: FeedViewController.self)
+        let value = bundle.localizedString(forKey: key, value: nil, table: table)
+        if value == key {
+            XCTFail("Missing localized string for key: \(key) in table: \(table)", file: file, line: line)
+        }
+        return value
     }
 }
 
