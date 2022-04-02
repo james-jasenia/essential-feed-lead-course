@@ -67,6 +67,7 @@
 		C4FD4C5227F7F68F001F13ED /* Feed.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C4FD4C5127F7F68F001F13ED /* Feed.storyboard */; };
 		C4FD4C5427F7F77B001F13ED /* Feed.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C4FD4C5327F7F77B001F13ED /* Feed.xcassets */; };
 		C4FD4C5627F82168001F13ED /* UITableView+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4FD4C5527F82168001F13ED /* UITableView+Ext.swift */; };
+		C4FD4C5827F8226D001F13ED /* UIImageView+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4FD4C5727F8226D001F13ED /* UIImageView+Ext.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -179,6 +180,7 @@
 		C4FD4C5127F7F68F001F13ED /* Feed.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Feed.storyboard; sourceTree = "<group>"; };
 		C4FD4C5327F7F77B001F13ED /* Feed.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Feed.xcassets; sourceTree = "<group>"; };
 		C4FD4C5527F82168001F13ED /* UITableView+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableView+Ext.swift"; sourceTree = "<group>"; };
+		C4FD4C5727F8226D001F13ED /* UIImageView+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+Ext.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -466,6 +468,7 @@
 				C4FD4C5127F7F68F001F13ED /* Feed.storyboard */,
 				C4FD4C5327F7F77B001F13ED /* Feed.xcassets */,
 				C4FD4C5527F82168001F13ED /* UITableView+Ext.swift */,
+				C4FD4C5727F8226D001F13ED /* UIImageView+Ext.swift */,
 			);
 			path = VIews;
 			sourceTree = "<group>";
@@ -756,6 +759,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C4FD4C5827F8226D001F13ED /* UIImageView+Ext.swift in Sources */,
 				C4FD4C5627F82168001F13ED /* UITableView+Ext.swift in Sources */,
 				1D7DF02E27F46418004E683C /* FeedPresenter.swift in Sources */,
 				C4AB60B727DFDE8D0030A0BC /* FeedImageDataLoader.swift in Sources */,
