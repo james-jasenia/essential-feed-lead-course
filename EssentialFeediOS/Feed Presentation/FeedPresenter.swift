@@ -25,26 +25,32 @@ protocol FeedView {
 }
 
 final class FeedPresenter {
-    typealias Observer<T> = (T) -> Void
+    private let feedView: FeedView
+    private let loadingView: FeedLoadingView
     
-    private let feedLoader: FeedLoader
-    
-    init(feedLoader: FeedLoader) {
-        self.feedLoader = feedLoader
+    init(feedView: FeedView, loadingView: FeedLoadingView) {
+        self.feedView = feedView
+        self.loadingView = loadingView
     }
     
-    var feedView: FeedView?
-    var loadingView: FeedLoadingView?
-
-    func loadFeed() {
-        loadingView?.display(FeedLoadingViewModel(isLoading: true))
-        feedLoader.load { [weak self] result in
-            
-            if case let .success(feed) = result {
-                self?.feedView?.display(FeedViewModel(feed: feed))
-            }
-            
-            self?.loadingView?.display(FeedLoadingViewModel(isLoading: false))
-        }
+    static var title: String {
+        return NSLocalizedString("FEED_VIEW_TITLE",
+                                 tableName: "Feed",
+                                 bundle: Bundle(for: FeedPresenter.self),
+                                 comment: "Title for the feed view."
+        )
+    }
+    
+    func didStartLoadingFeed() {
+        loadingView.display(FeedLoadingViewModel(isLoading: true))
+    }
+    
+    func didFinishLoadingFeed(with feed: [FeedImage]) {
+        feedView.display(FeedViewModel(feed: feed))
+        loadingView.display(FeedLoadingViewModel(isLoading: false))
+    }
+    
+    func didFinishLoading(with error: Error) {
+        loadingView.display(FeedLoadingViewModel(isLoading: false))
     }
 }
