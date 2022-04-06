@@ -13,7 +13,7 @@ public final class FeedUIComposer {
     private init() {}
     
     public static func feedComposedWith(feedLoader: FeedLoader, imageLoader: FeedImageDataLoader) -> FeedViewController {
-        let presenter = FeedPresenter(feedLoader: feedLoader)
+        let presenter = FeedPresenter(feedLoader: MainQueueDispatchDecorator(decoratee: feedLoader))
         let refreshController = FeedRefreshViewController(loadFeed: presenter.loadFeed)
         let feedController = FeedViewController(refreshController: refreshController)
         presenter.loadingView = WeakRefVirtualProxy(refreshController)
@@ -25,6 +25,26 @@ public final class FeedUIComposer {
         return { [weak controller] feed in
             controller?.tableModel = feed.map { model in
                 FeedImageCellController(viewModel: FeedImageViewModel(model: model, imageLoader: loader, imageTransformer: UIImage.init))
+            }
+        }
+    }
+}
+
+private final class MainQueueDispatchDecorator: FeedLoader {
+    private var decoratee: FeedLoader
+    
+    init(decoratee: FeedLoader) {
+        self.decoratee = decoratee
+    }
+    
+    func load(completion: @escaping (LoadFeedResult) -> Void) {
+        decoratee.load { result in
+            if Thread.isMainThread {
+                completion(result)
+            } else {
+                DispatchQueue.main.async {
+                    completion(result)
+                }
             }
         }
     }
