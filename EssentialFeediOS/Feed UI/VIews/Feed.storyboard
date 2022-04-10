@@ -16,19 +16,42 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                        <view key="tableHeaderView" contentMode="scaleToFill" id="ipd-iw-moI">
-                            <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
+                        <view key="tableHeaderView" contentMode="scaleToFill" id="NV6-FM-n6k" customClass="ErrorView" customModule="MVC" customModuleProvider="target">
+                            <rect key="frame" x="0.0" y="0.0" width="414" height="34"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            <subviews>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iMv-h3-gtL">
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="34"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                    <inset key="contentEdgeInsets" minX="0.0" minY="8" maxX="0.0" maxY="8"/>
+                                    <state key="normal" title="Error label">
+                                        <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    </state>
+                                    <connections>
+                                        <action selector="hideMessage" destination="NV6-FM-n6k" eventType="touchUpInside" id="nUW-5q-9eu"/>
+                                    </connections>
+                                </button>
+                            </subviews>
+                            <color key="backgroundColor" red="0.99951404330000004" green="0.41759261489999999" blue="0.4154433012" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <gestureRecognizers/>
+                            <constraints>
+                                <constraint firstAttribute="bottom" secondItem="iMv-h3-gtL" secondAttribute="bottom" id="6eO-vK-nQz"/>
+                                <constraint firstItem="iMv-h3-gtL" firstAttribute="top" secondItem="NV6-FM-n6k" secondAttribute="top" id="6hE-AK-Z6P"/>
+                                <constraint firstItem="iMv-h3-gtL" firstAttribute="leading" secondItem="NV6-FM-n6k" secondAttribute="leading" id="KIH-g7-cIu"/>
+                                <constraint firstAttribute="trailing" secondItem="iMv-h3-gtL" secondAttribute="trailing" id="MCd-Cw-UCD"/>
+                            </constraints>
+                            <connections>
+                                <outlet property="button" destination="iMv-h3-gtL" id="g5u-nU-iOQ"/>
+                            </connections>
                         </view>
                         <view key="tableFooterView" contentMode="scaleToFill" id="qXb-bb-Wmg">
-                            <rect key="frame" x="0.0" y="710" width="414" height="44"/>
+                            <rect key="frame" x="0.0" y="700" width="414" height="44"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         </view>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="FeedImageCell" rowHeight="599" id="KPW-Lg-9hd" customClass="FeedImageCell" customModule="Prototype" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="88.5" width="414" height="599"/>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="FeedImageCell" rowHeight="599" id="KPW-Lg-9hd" customClass="FeedImageCell" customModule="EssentialFeediOS" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="78.5" width="414" height="599"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="KPW-Lg-9hd" id="riH-cI-IBd">
                                     <rect key="frame" x="0.0" y="0.0" width="414" height="599"/>
@@ -147,6 +170,9 @@ Location</string>
                             <action selector="refresh" destination="bGb-dR-ck6" eventType="valueChanged" id="NsC-F8-r62"/>
                         </connections>
                     </refreshControl>
+                    <connections>
+                        <outlet property="errorView" destination="NV6-FM-n6k" id="4iH-mn-itd"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="FfF-pc-v5g" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
