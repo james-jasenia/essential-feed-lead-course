@@ -6,33 +6,23 @@
 //
 
 import XCTest
-@testable import EssentialFeediOS
+
+final class FeedPresenter {
+    init(view: Any) {}
+}
 
 class FeedPresenterTests: XCTestCase {
     
     func test_init_doesNotSendMessageToView() {
-        let sut = makeSUT()
-        
-    }
-    
-    private func makeSUT() -> FeedPresenter {
         let view = FeedViewSpy()
-        let presenter = FeedPresenter(
-            feedView: view,
-            loadingView: view,
-            errorView: view
-        )
+        
+        _ = FeedPresenter(view: view)
+        
+        XCTAssertTrue(view.messages.isEmpty, "Expected no view messages.")
     }
     
-    private struct FeedViewSpy: FeedView, FeedLoadingView, FeedErrorView {
-        
-        var messages: [Messages] = []
-        
-        init() {}
-        
-        enum Messages {
-            
-        }
+    private class FeedViewSpy {
+        let messages = [Any]()
     }
 }
 
