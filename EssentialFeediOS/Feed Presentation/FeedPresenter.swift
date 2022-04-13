@@ -7,6 +7,7 @@
 
 import Foundation
 import EssentialFeed
+import EssentialFeedTests
 
 struct FeedLoadingViewModel {
     let isLoading: Bool
@@ -26,6 +27,14 @@ protocol FeedView {
 
 struct FeedErrorViewModel {
     let message: String?
+    
+    static var noError: FeedErrorViewModel {
+        return FeedErrorViewModel(message: nil)
+    }
+    
+    static func error(message: String) -> FeedErrorViewModel {
+        return FeedErrorViewModel(message: message)
+    }
 }
 
 protocol FeedErrorView {
@@ -53,9 +62,16 @@ final class FeedPresenter {
         )
     }
     
+    static var feedLoadError: String {
+        return NSLocalizedString("FEED_VIEW_CONNECTION_ERROR",
+                                 tableName: "Feed",
+                                 bundle: Bundle(for: FeedPresenter.self),
+                                 comment: "Title for a feed view connection error."
+        )
+    }
+    
     func didStartLoadingFeed() {
-        errorView.display(FeedErrorViewModel(message: nil))
-
+        errorView.display(.noError)
         loadingView.display(FeedLoadingViewModel(isLoading: true))
     }
     
@@ -66,7 +82,7 @@ final class FeedPresenter {
     
     func didFinishLoading(with error: Error) {
         loadingView.display(FeedLoadingViewModel(isLoading: false))
-        errorView.display(FeedErrorViewModel(message: Localized.Feed.loadError))
+        errorView.display(.error(message: feedLoadError))
 
     }
 }
