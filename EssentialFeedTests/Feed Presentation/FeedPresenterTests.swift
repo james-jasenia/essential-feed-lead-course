@@ -48,7 +48,7 @@ class FeedPresenterTests: XCTestCase {
     
     private func makeSUT() -> (presenter: FeedPresenter, view: FeedViewSpy) {
         let view = FeedViewSpy()
-        let presenter = FeedPresenter(errorView: view, loadingView: view, feedView: view)
+        let presenter = FeedPresenter(feedView: view, loadingView: view, errorView: view)
         trackForMemoryLeaks(view)
         trackForMemoryLeaks(presenter)
         return (presenter, view)
