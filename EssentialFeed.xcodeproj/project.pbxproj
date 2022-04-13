@@ -12,6 +12,7 @@
 		1D0B85092806EE8800ED41E7 /* FeedLoadingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D0B85082806EE8800ED41E7 /* FeedLoadingViewModel.swift */; };
 		1D0B850B2806EEB500ED41E7 /* FeedErrorViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D0B850A2806EEB500ED41E7 /* FeedErrorViewModel.swift */; };
 		1D0B850D2806EED500ED41E7 /* FeedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D0B850C2806EED500ED41E7 /* FeedViewModel.swift */; };
+		1D0B850E2806F19800ED41E7 /* FeedLocalizationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4FC726927F91AE60042EDE5 /* FeedLocalizationTests.swift */; };
 		C402CBDB27D1BBEA009CD9B1 /* FeedStoreSpecs.swift in Sources */ = {isa = PBXBuildFile; fileRef = C402CBDA27D1BBEA009CD9B1 /* FeedStoreSpecs.swift */; };
 		C402CBDD27D1BC4D009CD9B1 /* XCTestCase+FeedStoreSpecs.swift in Sources */ = {isa = PBXBuildFile; fileRef = C402CBDC27D1BC4D009CD9B1 /* XCTestCase+FeedStoreSpecs.swift */; };
 		C402CBE027D1C0CF009CD9B1 /* XCTestCase+FailableRetrieveFeedStoreSpecs.swift in Sources */ = {isa = PBXBuildFile; fileRef = C402CBDF27D1C0CF009CD9B1 /* XCTestCase+FailableRetrieveFeedStoreSpecs.swift */; };
@@ -69,7 +70,6 @@
 		C4B3712C2803E48100D44D06 /* FeedPresenterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4B3712B2803E48100D44D06 /* FeedPresenterTests.swift */; };
 		C4C96DDD2793E9B600550508 /* EssentialFeed.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C4C96DD32793E9B600550508 /* EssentialFeed.framework */; };
 		C4C96DEE2793E9DC00550508 /* FeedItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4C96DED2793E9DC00550508 /* FeedItem.swift */; };
-		C4FC726A27F91AE60042EDE5 /* FeedLocalizationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4FC726927F91AE60042EDE5 /* FeedLocalizationTests.swift */; };
 		C4FD4C5027F7F1E1001F13ED /* FeedImagePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4FD4C4F27F7F1E1001F13ED /* FeedImagePresenter.swift */; };
 		C4FD4C5227F7F68F001F13ED /* Feed.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C4FD4C5127F7F68F001F13ED /* Feed.storyboard */; };
 		C4FD4C5427F7F77B001F13ED /* Feed.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C4FD4C5327F7F77B001F13ED /* Feed.xcassets */; };
@@ -323,7 +323,6 @@
 		C40D017E27D62B0B00F522B4 /* EssentialFeediOSTests */ = {
 			isa = PBXGroup;
 			children = (
-				C4FC726827F91AD80042EDE5 /* Presentation */,
 				C40D018827D6357000F522B4 /* FeedUIIntegrationTests.swift */,
 			);
 			path = EssentialFeediOSTests;
@@ -503,6 +502,7 @@
 		C4B3712A2803E46400D44D06 /* Feed Presentation */ = {
 			isa = PBXGroup;
 			children = (
+				C4FC726927F91AE60042EDE5 /* FeedLocalizationTests.swift */,
 				C4B3712B2803E48100D44D06 /* FeedPresenterTests.swift */,
 			);
 			path = "Feed Presentation";
@@ -567,14 +567,6 @@
 				C4051CB627DEEEE3007564D5 /* UIView+Shimmering.swift */,
 			);
 			path = Helpers;
-			sourceTree = "<group>";
-		};
-		C4FC726827F91AD80042EDE5 /* Presentation */ = {
-			isa = PBXGroup;
-			children = (
-				C4FC726927F91AE60042EDE5 /* FeedLocalizationTests.swift */,
-			);
-			path = Presentation;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -838,7 +830,6 @@
 			files = (
 				C40D018A27D6357500F522B4 /* FeedUIIntegrationTests.swift in Sources */,
 				C4051CB127DC382C007564D5 /* XCTTestCase+Ext.swift in Sources */,
-				C4FC726A27F91AE60042EDE5 /* FeedLocalizationTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -896,6 +887,7 @@
 			files = (
 				C45BA00627C5770F00300AA3 /* CodableFeedStoreTests.swift in Sources */,
 				C4697AC527C097A9006D97C0 /* FeedCacheTestHelpers.swift in Sources */,
+				1D0B850E2806F19800ED41E7 /* FeedLocalizationTests.swift in Sources */,
 				C4697AC327BFAB26006D97C0 /* ValidateFeedCacheUseCaseTests.swift in Sources */,
 				C4427B8B2794015900CB136A /* LoadFeedFromRemoteUseCastTests.swift in Sources */,
 				C402CBE227D1C182009CD9B1 /* XCTestCase+FailableInsertFeedStoreSpecs.swift in Sources */,
